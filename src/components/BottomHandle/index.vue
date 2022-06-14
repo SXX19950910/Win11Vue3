@@ -1,11 +1,23 @@
 <template>
-  <div id="bottom-handle" class="border-t">
+  <div class="bottom-handle border-t flex justify-between items-center px-2 py-1">
+    <div class="bottom-handle__bg"></div>
+    <weather class="z-10 relative" />
+    <mission-board class="z-10" />
+    <setting-board class="z-10" />
   </div>
 </template>
 
 <script>
+import Weather from "@/widgets/Weather"
+import MissionBoard from "@/widgets/MissionBoard"
+import SettingBoard from "@/widgets/SettingBoard"
 export default {
   name: 'BottomHandle',
+  components: {
+    Weather,
+    MissionBoard,
+    SettingBoard
+  },
   data() {
     return {}
   }
@@ -13,14 +25,20 @@ export default {
 </script>
 
 <style lang="less">
-#bottom-handle {
+.bottom-handle {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
-  font-family: sans-serif;
-  text-align: center;
-  line-height: 1;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  padding: 24px 40px;
+  height: 48px;
+  position: relative;
+  box-sizing: border-box;
+  &__bg {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    height: 48px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+  }
 }
 </style>

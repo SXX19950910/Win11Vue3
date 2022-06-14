@@ -1,6 +1,6 @@
 <template>
-  <div id="windows" class="h-full flex flex-col justify-between">
-    <div>内容翦</div>
+  <div id="windows" class="h-full flex flex-col justify-between" @click="handleClick">
+    <div class="windows__content" />
     <bottom-handle />
   </div>
 </template>
@@ -11,7 +11,13 @@ export default {
   name: 'App',
   components: {
     BottomHandle
+  },
+  methods: {
+    handleClick() {
+      this.$store.commit('panel/setWeatherVisible', false)
+    }
   }
+
 }
 </script>
 
@@ -25,5 +31,10 @@ export default {
   overflow: hidden;
   background-position: center;
   background-size: cover;
+  #windows {
+    &__content {
+
+    }
+  }
 }
 </style>
