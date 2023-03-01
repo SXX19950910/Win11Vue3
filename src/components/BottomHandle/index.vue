@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import Weather from "@/widgets/Weather"
-import MissionBoard from "@/widgets/MissionBoard"
-import SettingBoard from "@/widgets/SettingBoard"
+import Weather from '@/widgets/Weather/index.vue'
+import MissionBoard from '@/widgets/MissionBoard/index.vue'
+import SettingBoard from '@/widgets/SettingBoard/index.vue'
 export default {
   name: 'BottomHandle',
   components: {

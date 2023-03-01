@@ -1,15 +1,18 @@
 <template>
   <div class="setting-board">
-    设置区域
+    <time-control />
   </div>
 </template>
 
 <script>
+import TimeControl from '@/components/TimeControl/index.vue'
 export default {
-  name: "SettingBoard",
+  name: 'SettingBoard',
+  components: {
+    TimeControl
+  },
   data() {
-    return {
-    }
+    return {}
   }
 }
 </script>

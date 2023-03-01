@@ -1,32 +1,40 @@
 <template>
   <div class="weather select-none" @click.stop>
     <weather-panel />
-    <div class="weather__title flex items-center text-[12px] px-2 py-1 cursor-default" @click="handleToggleWeatherPanel">
+    <div
+      class="weather__title flex items-center text-[12px] px-2 py-1 cursor-default"
+      @click="handleToggleWeatherPanel"
+    >
       <div>
-        <img class="w-[26px]" src="../../assets/images/weather.png" alt="weather">
+        <img class="w-[26px]" src="../../assets/images/weather.png" alt="weather" />
       </div>
       <div class="ml-2 text-left">
         <span>26°C</span>
-        <div class="text-info">阵雨来袭</div>
+        <div class="text-info text-12">阵雨来袭</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import WeatherPanel from '@/widgets/Weather/panel'
+import { mapActions, mapState } from 'pinia'
+import { usePanelStore } from '@/store/panel'
+import WeatherPanel from '@/widgets/Weather/panel.vue'
 export default {
   name: 'WeatherWidget',
   components: {
     WeatherPanel
   },
   data() {
-    return {
-    }
+    return {}
+  },
+  computed: {
+    ...mapState(usePanelStore, ['weatherVisible'])
   },
   methods: {
+    ...mapActions(usePanelStore, ['setWeatherVisible']),
     handleToggleWeatherPanel() {
-      this.$store.commit('panel/setWeatherVisible', !this.$store.state.panel.weatherVisible)
+      this.setWeatherVisible(!this.weatherVisible)
     }
   }
 }
@@ -41,7 +49,7 @@ export default {
   border: 1px solid transparent;
   &:hover {
     background-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.01)
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.01);
   }
   &__title {
     height: 100%;

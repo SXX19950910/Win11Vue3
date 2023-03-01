@@ -1,22 +1,15 @@
 <template>
-  <div class="clock text-2xl">
-    17:12
-  </div>
+  <div class="clock text-2xl">17:12</div>
 </template>
 
 <script>
 export default {
   name: 'ClockText',
   data() {
-    return {
-    }
+    return {}
   },
-  methods: {
-
-  }
+  methods: {}
 }
 </script>
 
-<style lang="less">
-
-</style>
+<style lang="less"></style>

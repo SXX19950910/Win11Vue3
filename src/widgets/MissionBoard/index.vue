@@ -1,7 +1,5 @@
 <template>
-  <div class="mission-board">
-    任务栏
-  </div>
+  <div class="mission-board">任务栏</div>
 </template>
 
 <script>
@@ -10,11 +8,8 @@ export default {
   data() {
     return {}
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 
-<style lang="less">
-
-</style>
+<style lang="less"></style>

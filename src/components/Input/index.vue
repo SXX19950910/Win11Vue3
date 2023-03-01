@@ -3,7 +3,7 @@
     <div class="shrink-0 text-[12px] pr-4">
       <i class="iconfont icon-sousuo"></i>
     </div>
-    <input class="search-input__inner" placeholder="搜素网页" @focus="onfocus" @blur="onblur">
+    <input class="search-input__inner" placeholder="搜素网页" @focus="onfocus" @blur="onblur" />
     <div v-if="isActive" class="search-input__line"></div>
   </div>
 </template>
@@ -45,7 +45,7 @@ export default {
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: rgb(18,103,52);
+    background-color: rgb(18, 103, 52);
   }
 }
 </style>

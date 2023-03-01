@@ -1,25 +1,26 @@
 <template>
- <div>
-   <transition name="slide-in-left">
-     <div v-if="weatherVisible" class="weather-panel px-24">
-       <div class="text-center py-5">
-         <clock-text />
-       </div>
-       <search-input />
-       <div class="mt-2 weather-panel__news flex flex-wrap">
-         <div v-for="(item, index) in news" :key="index" class="item cursor-pointer">
-           <div class="inner"></div>
-         </div>
-       </div>
-     </div>
-   </transition>
- </div>
+  <div>
+    <transition name="slide-in-left">
+      <div v-if="weatherVisible" class="weather-panel px-24">
+        <div class="text-center py-5">
+          <clock-text />
+        </div>
+        <search-input />
+        <div class="mt-2 weather-panel__news flex flex-wrap">
+          <div v-for="(item, index) in news" :key="index" class="item cursor-pointer">
+            <div class="inner"></div>
+          </div>
+        </div>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script>
-import SearchInput from '@/components/Input'
-import { mapState } from 'vuex'
-import ClockText from "@/components/clock";
+import { mapState } from 'pinia'
+import { usePanelStore } from '@/store/panel'
+import SearchInput from '@/components/Input/index.vue'
+import ClockText from '@/components/clock/index.vue'
 export default {
   name: 'WeatherPanel',
   components: {
@@ -47,12 +48,12 @@ export default {
       ]
     }
   },
-  computed: mapState({
-    weatherVisible: state => state.panel.weatherVisible
-  }),
+  computed: {
+    ...mapState(usePanelStore, ['weatherVisible'])
+  },
   methods: {
     onmousemove() {
-      this.$store.commit('setWeatherVisible', true)
+      //
     }
   }
 }
@@ -86,12 +87,12 @@ export default {
       .inner {
         width: 100%;
         height: 100%;
-        transition: .2s ease all;
+        transition: 0.2s ease all;
         box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.1);
         border-radius: @base-radius;
         background-color: white;
         &:hover {
-          box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25)
+          box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.25);
         }
       }
     }
