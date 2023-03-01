@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia'
+import { usePanelStore } from '@/store/panel'
 import WeatherPanel from '@/widgets/Weather/panel.vue'
 export default {
   name: 'WeatherWidget',
@@ -26,9 +28,13 @@ export default {
   data() {
     return {}
   },
+  computed: {
+    ...mapState(usePanelStore, ['weatherVisible'])
+  },
   methods: {
+    ...mapActions(usePanelStore, ['setWeatherVisible']),
     handleToggleWeatherPanel() {
-      this.$store.commit('panel/setWeatherVisible', !this.$store.state.panel.weatherVisible)
+      this.setWeatherVisible(!this.weatherVisible)
     }
   }
 }

@@ -15,6 +15,7 @@
     "js-calendar-converter": "^0.0.4",
     "moment": "^2.29.4",
     "pinia": "^2.0.32",
+    "throttle-debounce": "^5.0.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
     "vuex": "^4.1.0"

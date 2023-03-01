@@ -17,8 +17,9 @@
 </template>
 
 <script>
+import { mapState } from 'pinia'
+import { usePanelStore } from '@/store/panel'
 import SearchInput from '@/components/Input/index.vue'
-import { mapState } from 'vuex'
 import ClockText from '@/components/clock/index.vue'
 export default {
   name: 'WeatherPanel',
@@ -47,12 +48,12 @@ export default {
       ]
     }
   },
-  computed: mapState({
-    weatherVisible: (state) => state.panel.weatherVisible
-  }),
+  computed: {
+    ...mapState(usePanelStore, ['weatherVisible'])
+  },
   methods: {
     onmousemove() {
-      this.$store.commit('setWeatherVisible', true)
+      //
     }
   }
 }

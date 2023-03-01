@@ -6,15 +6,24 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import { usePanelStore } from '@/store/panel'
 import BottomHandle from '@/components/BottomHandle/index.vue'
 export default {
   name: 'App',
   components: {
     BottomHandle
   },
+  computed: {
+  },
   methods: {
+    ...mapActions(usePanelStore, ['setWeatherVisible', 'setCalendarVisible']),
+    closeAllPanel() {
+      this.setWeatherVisible(false)
+      this.setCalendarVisible(false)
+    },
     handleClick() {
-      this.$store.commit('panel/setWeatherVisible', false)
+      this.closeAllPanel()
     }
   }
 }
