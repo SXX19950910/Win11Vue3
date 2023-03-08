@@ -4,7 +4,9 @@ export const usePanelStore = defineStore('panel', {
     state() {
         return {
             weatherVisible: false,
-            calendarVisible: false
+            calendarVisible: false,
+            startMenuVisible: false,
+            contextVisible: false
         }
     },
     actions: {
@@ -13,6 +15,9 @@ export const usePanelStore = defineStore('panel', {
         },
         setCalendarVisible(visible) {
             this.calendarVisible = visible
+        },
+        setStartMenuVisible(visible) {
+            this.startMenuVisible = visible
         }
     }
 })

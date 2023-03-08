@@ -1,39 +1,35 @@
 <template>
-  <el-tooltip content="开始" effect="light" :show-arrow="false" >
-    <div class="start-menu" :class="{ active: state.menuVisible }" @click="handleClick">
-      <div class="start-menu__content">
-        <div class="top-row flex gap-[1px]">
-          <div class="item one"></div>
-          <div class="item two"></div>
-        </div>
-        <div class="bottom-row flex gap-[1px] mt-[1px]">
-          <div class="item three"></div>
-          <div class="item four"></div>
+  <div class="relative">
+    <el-tooltip content="开始" effect="light" :show-arrow="false" >
+      <div class="start-menu" :class="{ active: state.startMenuVisible }" @click.stop="handleClick">
+        <div class="start-menu__content">
+          <div class="top-row flex gap-[1px]">
+            <div class="item one"></div>
+            <div class="item two"></div>
+          </div>
+          <div class="bottom-row flex gap-[1px] mt-[1px]">
+            <div class="item three"></div>
+            <div class="item four"></div>
+          </div>
         </div>
       </div>
-    </div>
-  </el-tooltip>
+    </el-tooltip>
+    <popover />
+  </div>
 </template>
 
 <script setup>
 import { ElTooltip } from 'element-plus'
-import { ref, onMounted, reactive } from 'vue'
+import Popover from './popover.vue'
+import { usePanelStore } from '@/store/panel'
 
-// reactive state
-const count = ref(0)
+const state = usePanelStore()
 
-const state = reactive({
-  menuVisible: false
-})
+
 
 const handleClick = () => {
-  state.menuVisible = !state.menuVisible
+  state.startMenuVisible = !state.startMenuVisible
 }
-
-// lifecycle hooks
-onMounted(() => {
-  console.log(`The initial count is ${count.value}.`)
-})
 
 </script>
 

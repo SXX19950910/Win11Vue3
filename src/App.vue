@@ -1,31 +1,29 @@
 <template>
   <div id="windows" class="h-full flex flex-col justify-between" @click="handleClick">
-    <div class="windows__content" />
+    <div class="windows__content h-full" >
+      <context-modal />
+    </div>
     <bottom-handle />
   </div>
 </template>
 
-<script>
-import { mapActions } from 'pinia'
+<script setup>
 import { usePanelStore } from '@/store/panel'
+import ContextModal from '@/widgets/ContextModal/index.vue'
 import BottomHandle from '@/components/BottomHandle/index.vue'
-export default {
-  name: 'App',
-  components: {
-    BottomHandle
-  },
-  computed: {
-  },
-  methods: {
-    ...mapActions(usePanelStore, ['setWeatherVisible', 'setCalendarVisible']),
-    closeAllPanel() {
-      this.setWeatherVisible(false)
-      this.setCalendarVisible(false)
-    },
-    handleClick() {
-      this.closeAllPanel()
-    }
-  }
+
+const panel = usePanelStore()
+
+
+const closeAllPanel = () => {
+  panel.weatherVisible = false
+  panel.calendarVisible = false
+  panel.startMenuVisible = false
+  panel.contextVisible = false
+}
+
+const handleClick = () => {
+  closeAllPanel()
 }
 </script>
 
@@ -35,10 +33,11 @@ export default {
   background-color: @primary-color;
   width: 100vw;
   height: 100vh;
-  background-image: url('@/assets/images/global-bg.jpg');
+  background-image: url('@/assets/images/win11.jpg');
   overflow: hidden;
   background-position: center;
   background-size: cover;
+  user-select: none;
   #windows {
     &__content {
     }
