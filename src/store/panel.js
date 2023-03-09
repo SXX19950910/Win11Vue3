@@ -6,7 +6,9 @@ export const usePanelStore = defineStore('panel', {
             weatherVisible: false,
             calendarVisible: false,
             startMenuVisible: false,
-            contextVisible: false
+            contextVisible: false,
+            sortMenuVisible: false,
+            viewMenuVisible: false
         }
     },
     actions: {

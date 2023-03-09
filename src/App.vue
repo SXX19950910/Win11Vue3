@@ -20,6 +20,7 @@ const closeAllPanel = () => {
   panel.calendarVisible = false
   panel.startMenuVisible = false
   panel.contextVisible = false
+  panel.viewMenuVisible = false
 }
 
 const handleClick = () => {
