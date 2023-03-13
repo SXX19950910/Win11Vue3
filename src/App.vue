@@ -1,6 +1,6 @@
 <template>
-  <div id="windows" class="h-full flex flex-col justify-between" @click="handleClick">
-    <div class="windows__content h-full" >
+  <div id="windows" class="h-full flex flex-col justify-between" @click="handleClick" @mousedown="onmousedown">
+    <div class="windows__content h-full relative" >
       <context-modal />
     </div>
     <bottom-handle />
@@ -15,21 +15,20 @@ import BottomHandle from '@/components/BottomHandle/index.vue'
 const panel = usePanelStore()
 
 
-const closeAllPanel = () => {
-  panel.weatherVisible = false
-  panel.calendarVisible = false
-  panel.startMenuVisible = false
-  panel.contextVisible = false
-  panel.viewMenuVisible = false
+const handleClick = () => {
+  panel.closeAllPanel()
 }
 
-const handleClick = () => {
-  closeAllPanel()
+const onmousedown = () => {
+  // const isRightBtn = e.button === 2
+  panel.closeAllPanel()
 }
+
 </script>
 
 <style lang="less">
 @import '@/styles/init.less';
+@import '@/styles/transition.css';
 #app {
   background-color: @primary-color;
   width: 100vw;

@@ -1,0 +1,13 @@
+.slide-down-enter-active {
+    transition: all 0.16s linear;
+    top: 15px;
+}
+.slide-down-leave-active {
+    display: none;
+}
+.slide-down-enter-from {
+    top: -213px;
+}
+.slide-down-leave-to {
+    display: none;
+}

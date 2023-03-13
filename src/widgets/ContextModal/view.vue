@@ -1,7 +1,7 @@
 <template>
   <div class="view-menu relative" :style="style">
     <transition name="slide-down">
-      <div v-if="panel.viewMenuVisible" class="view-menu__content">
+      <div v-if="panel.viewMenuVisible" class="view-menu__content" :style="contentStyle">
         <div class="border-b border-[#C8D0E7]">
           <div class="item rounded">
             <div class="flex items-center">
@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 import { usePanelStore } from '@/store/panel'
 import BigIcon from '@/components/icon/big.vue'
 import MiddleIcon from '@/components/icon/middle.vue'
@@ -79,42 +79,50 @@ const props = defineProps({
   top: {
     type: Number,
     default: 0
+  },
+  right: {
+    type: Number,
+    default: 0
   }
 })
 
 const style = computed(() => {
   return {
-    left: props.left + 'px',
-    top: props.top + 'px'
+    top: props.top + 'px',
+    left: props.left ? (props.left + 'px') : 'unset',
+    right: props.right ? (props.right + 'px') : 'unset',
+    display: panel.viewMenuVisible ? 'block' : 'none'
+  }
+})
+
+const contentStyle = computed(() => {
+  if (props.left) {
+    return {
+      left: '15px'
+    }
+  } else {
+    return {
+      right: '10px'
+    }
   }
 })
 
 </script>
 
 <style lang="less">
-.slide-down-enter-active {
-  transition: all 0.16s linear;
-  top: 0;
-}
-.slide-down-leave-active {
-  display: none;
-}
-.slide-down-enter-from {
-  top: -213px;
-}
-.slide-down-leave-to {
-  display: none;
-}
 .view-menu {
-  height: 213px;
+  height: 250px;
   overflow: hidden;
+  z-index: 100;
   &__content {
     background-color: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    border: 1px solid #CDD4D9;
     padding: 6px;
     position: absolute;
+    top: 15px;
     .item {
       display: flex;
       align-items: center;

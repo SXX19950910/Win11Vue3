@@ -30,6 +30,7 @@ export default {
   height: 48px;
   position: relative;
   box-sizing: border-box;
+  border-top: 1px solid #B7BEC5;
   &__bg {
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative" @click.stop @mousedown.stop>
     <transition name="slide-in-right">
       <calendar v-if="calendarVisible" />
     </transition>

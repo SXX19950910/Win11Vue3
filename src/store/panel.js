@@ -20,6 +20,14 @@ export const usePanelStore = defineStore('panel', {
         },
         setStartMenuVisible(visible) {
             this.startMenuVisible = visible
+        },
+        closeAllPanel() {
+            this.weatherVisible = false
+            this.calendarVisible = false
+            this.startMenuVisible = false
+            this.contextVisible = false
+            this.viewMenuVisible = false
+            this.sortMenuVisible = false
         }
     }
 })
