@@ -1,5 +1,5 @@
 <template>
-  <div class="view-menu relative" :style="style">
+  <div class="view-menu absolute w-full" :style="style">
     <transition name="slide-down">
       <div v-if="panel.viewMenuVisible" class="view-menu__content" :style="contentStyle">
         <div class="border-b border-[#C8D0E7]">

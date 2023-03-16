@@ -190,7 +190,7 @@ const onmousemove = (e, type) => {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     padding: 6px 6px 0 6px;
     .item {
-      font-size: 15px;
+      font-size: 14px;
       height: 30px;
       display: flex;
       align-items: center;
