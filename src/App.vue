@@ -1,5 +1,5 @@
 <template>
-  <div id="windows" class="h-full flex flex-col justify-between" @click="handleClick" @mousedown="onmousedown">
+  <div id="windows" class="h-full flex flex-col justify-between" :class="{ 'cursor-progress': app.loading }" @click="handleClick" @mousedown="onmousedown">
     <div class="windows__content h-full relative py-2" >
       <apps />
       <context-modal />
@@ -10,11 +10,13 @@
 
 <script setup>
 import { usePanelStore } from '@/store/panel'
+import { useAppStore } from '@/store/app'
 import ContextModal from '@/widgets/ContextModal/index.vue'
 import Apps from '@/widgets/Apps/index.vue'
 import BottomHandle from '@/components/BottomHandle/index.vue'
 
 const panel = usePanelStore()
+const app = useAppStore()
 
 
 const handleClick = () => {

@@ -1,6 +1,6 @@
 <template>
-  <drag-app :icon="icon" icon-wdith="50" icon-height="50" name="Microsoft Edge" title="浏览 Web"></drag-app>
-  <drag-window ref="dragWin" handle-class="edge-app__header" @full="onFullChange">
+  <drag-app :icon="icon" icon-wdith="50" icon-height="50" name="Microsoft Edge" title="浏览 Web" @dblclick.stop="handleOpen"></drag-app>
+  <drag-window v-if="app.edge.visible" :is-mini="app.edge.mini" ref="dragWin" handle-class="edge-app__header" @full="onFullChange">
     <div class="edge-app rounded-[10px] overflow-hidden">
       <div class="edge-app__header flex items-center justify-between">
         <div class="left-tags pl-2 pt-2 h-full flex">
@@ -22,7 +22,7 @@
             <mini-icon v-if="state.isFull" />
             <div v-else class="w-[10px] h-[10px] border border-black rounded-sm" />
           </div>
-          <div class="close flex items-center justify-center h-[40px] w-[46px] hover:bg-[#E81123] hover:text-white">
+          <div class="close flex items-center justify-center h-[40px] w-[46px] hover:bg-[#E81123] hover:text-white" @click.stop="handleClose">
             <el-icon><Close /></el-icon>
           </div>
         </div>
@@ -53,29 +53,43 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { useAppStore } from '@/store'
 import MiniIcon from '@/components/icon/mini.vue'
 import DragApp from '@/components/DragApp/index.vue'
 import DragWindow from '@/components/DragWindow/index.vue'
 import icon from '@/assets/images/app/edge.png'
 
 const dragWin = ref(null)
+const Edge = 'edge'
 
 const state = reactive({
   isFull: false
 })
+
+const app = useAppStore()
 
 const onFullChange = (full) => {
   state.isFull = full
 }
 
 const handleMini = () => {
-  dragWin.value.toMini()
+  app.toggleMini(Edge)
+  app.focusTask(Edge)
 }
-
 
 const handleToggleFull = () => {
   dragWin.value.toggleFullScreen()
 }
+
+const handleOpen = () => {
+  app.focusTask(Edge)
+  app.open(Edge)
+}
+
+const handleClose = () => {
+  app.close(Edge)
+}
+
 </script>
 
 <style lang="less">

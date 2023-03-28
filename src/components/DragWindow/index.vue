@@ -1,5 +1,5 @@
 <template>
-  <div class="drag-window overflow-hidden absolute" :class="{ 'is-full': state.isFull, 'transition-none': state.disabledTransition, 'is-mini': state.isMini }" :style="style" @mousedown.stop="onmousedown" @contextmenu.prevent.stop>
+  <div class="drag-window overflow-hidden absolute" :class="{ 'is-full': state.isFull, 'transition-none': state.disabledTransition, 'is-mini': props.isMini }" :style="style" @mousedown.stop="onmousedown" @contextmenu.prevent.stop>
     <slot />
   </div>
 </template>
@@ -12,6 +12,10 @@ const props = defineProps({
   handleClass: {
     type: String,
     default: ''
+  },
+  isMini: {
+    type: Boolean,
+    default: false
   }
 })
 

@@ -1,8 +1,8 @@
 <template>
-  <div class="relative">
+  <div class="absolute transition-all" :style="style">
     <el-tooltip content="开始" effect="light" :show-arrow="false" >
       <div class="start-menu" :class="{ active: state.startMenuVisible }" @click.stop="handleClick">
-        <div class="start-menu__content">
+        <div class="start-menu__content transition-all">
           <div class="top-row flex gap-[1px]">
             <div class="item one"></div>
             <div class="item two"></div>
@@ -20,11 +20,19 @@
 
 <script setup>
 import { ElTooltip } from 'element-plus'
+import { computed } from 'vue'
+import { useAppStore } from '@/store'
 import Popover from './popover.vue'
 import { usePanelStore } from '@/store/panel'
 
 const state = usePanelStore()
+const app = useAppStore()
 
+const style = computed(() => {
+ return {
+   transform: `translateX(-${app.taskList.length * 40}px)`
+ }
+})
 
 
 const handleClick = () => {
@@ -37,7 +45,6 @@ const handleClick = () => {
 .start-menu {
   padding: 7px;
   border-radius: 4px;
-  transition: 0.2s ease background-color;
   &__content {
     transition: 0.1s ease all;
   }
