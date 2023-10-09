@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
+    "caniuse-lite": "^1.0.30001546",
     "element-plus": "^2.2.32",
+    "is-url-http": "2.3.2",
     "js-calendar-converter": "^0.0.4",
     "moment": "^2.29.4",
     "pinia": "^2.0.32",

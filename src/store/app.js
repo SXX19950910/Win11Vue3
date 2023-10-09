@@ -26,7 +26,8 @@ export const useAppStore = defineStore('app', {
 
             const task = {
                 id: appName,
-                icon: this[appName].icon
+                icon: this[appName].icon,
+                isReady: false
             }
             const isRunning = this.taskList.find(item => item.id === task.id)
             if (!isRunning) {
@@ -41,6 +42,13 @@ export const useAppStore = defineStore('app', {
         },
         toggleMini(appName) {
             this[appName].mini = !this[appName].mini
+        },
+        opened({ id }) {
+            this.taskList.forEach(item => {
+                if (item.id === id) {
+                    item.isReady = true
+                }
+            })
         },
         focusTask(appName) {
             if (!appName || appName === this.currentTask.id) {

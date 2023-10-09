@@ -5,7 +5,7 @@
       <div class="edge-app__header flex items-center justify-between">
         <div class="left-tags pl-2 pt-2 h-full flex">
           <div class="tag-item text-12 bg-[#F7F7F7] h-full flex items-center justify-center px-2 rounded-t-[5px]">
-            <div class="name">360导航一个主页，整个世界</div>
+            <div class="name max-w-[120px] overflow-hidden whitespace-nowrap text-ellipsis">{{ state.url || oldUrl }}</div>
             <div class="ml-5 close-btn hover:bg-[#D0D0D0] w-[18px] h-[18px] flex items-center justify-center rounded-[2px]">
               <el-icon size="12"><CloseBold /></el-icon>
             </div>
@@ -32,27 +32,32 @@
           <div class="back item rounded-sm text-black">
             <i class="iconfont icon-houtui text-[22px]"></i>
           </div>
-          <div class="refresh item">
-            <el-icon size="20"><RefreshRight /></el-icon>
+          <div class="refresh item" @click="handleRefresh">
+            <el-icon size="20">
+              <Close v-if="state.loading" />
+              <RefreshRight v-else />
+            </el-icon>
           </div>
-          <div class="home item">
+          <div class="home item" @click="handleGoHome">
             <i class="iconfont icon-zhuye-xian text-18"></i>
           </div>
         </div>
-        <input class="search-box ml-2" placeholder="请输入关键字或URL" />
+        <input v-model="link" class="search-box ml-2" placeholder="请输入关键字或URL" @keydown.enter="handleSearch" />
         <div class="more-box h-[32px] w-[40px] flex items-center justify-center ml-2 hover:bg-[#E4E4E4] rounded-sm">
           <el-icon size="12"><MoreFilled /></el-icon>
         </div>
       </div>
       <div class="edge-app__content w-full">
-        <iframe ref="iframe" class="edge-app__iframe w-full h-full" src="https://cn.bing.com/" />
+        <iframe ref="iframe" class="iframe w-full h-full" :src="state.url" @load="onWebLoad" />
       </div>
     </div>
   </drag-window>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import {ref, reactive, toRaw} from 'vue'
+import { sleep } from "@/utils";
+import isUrlHttp from 'is-url-http'
 import { useAppStore } from '@/store'
 import MiniIcon from '@/components/icon/mini.vue'
 import DragApp from '@/components/DragApp/index.vue'
@@ -61,10 +66,17 @@ import icon from '@/assets/images/app/edge.png'
 
 const dragWin = ref(null)
 const Edge = 'edge'
+const iframe = ref(null)
+const homeUrl = 'https://cn.bing.com/'
 
 const state = reactive({
-  isFull: false
+  isFull: false,
+  loading: true,
+  url: homeUrl
 })
+
+const oldUrl = ref('')
+const link = ref(homeUrl)
 
 const app = useAppStore()
 
@@ -84,6 +96,37 @@ const handleToggleFull = () => {
 const handleOpen = () => {
   app.focusTask(Edge)
   app.open(Edge)
+}
+
+const handleSearch = () => {
+  state.loading = true
+  if (isUrlHttp(link.value)) {
+    state.url = link.value
+  } else if (!link.value) {
+    state.url = homeUrl
+  } else {
+    state.url = `https://www.bing.com/search?q=${link.value}`
+  }
+  link.value = toRaw(state.url)
+}
+
+const onWebLoad = () => {
+  state.loading = !Boolean(state.url)
+}
+
+const handleRefresh = async () => {
+  oldUrl.value = toRaw(state.url)
+  state.loading = true
+  state.url = ''
+  await sleep(500)
+  state.url = oldUrl.value.toString()
+}
+
+const handleGoHome = () => {
+  if (link.value === homeUrl && state.url === homeUrl) return
+  link.value = homeUrl
+  state.loading = true
+  state.url = homeUrl
 }
 
 const handleClose = () => {
@@ -138,6 +181,9 @@ const handleClose = () => {
   }
   &__content {
     height: calc(100% - 81px);
+    .iframe {
+      background-color: white;
+    }
   }
 }
 </style>

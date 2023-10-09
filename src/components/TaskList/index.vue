@@ -2,7 +2,7 @@
   <div class="task-list flex items-center">
     <div v-for="item in app.taskList" :key="item.id" class="item rounded flex items-center justify-center ml-2 relative" :class="{ 'active': app.currentTask.id === item.id }" @click.stop="handleToggleTask(item)">
       <img class="w-[25px] h-[25px] icon" :src="item.icon" alt="" />
-      <div class="flag" />
+      <div class="flag" :class="{ 'animate-end': item.isReady }" @animationend="onFlagEnd(item)" />
     </div>
   </div>
 </template>
@@ -16,10 +16,17 @@ const handleToggleTask = (item) => {
   app.currentTask.id === item.id ? app.focusTask(false) : app.focusTask(item.id)
   app.toggleMini(item.id)
 }
+
+const onFlagEnd = (item) => {
+  app.opened(item)
+}
 </script>
 
 <style lang="less">
 .task-list {
+  .animate-end {
+    animation-delay: unset !important;
+  }
   .item {
     width: 39px;
     height: 39px;
@@ -34,7 +41,7 @@ const handleToggleTask = (item) => {
         top: 100px;
       }
       to {
-        display: block;
+        display: flex;
         top: 0;
       }
     }
@@ -65,18 +72,26 @@ const handleToggleTask = (item) => {
       position: absolute;
       bottom: 0;
       border-radius: 6px;
-      transition: width ease 0.2s;
+      animation: grow-out linear 0.2s forwards;
+      @keyframes grow-out {
+        from {
+          width: 16px;
+        }
+        to {
+          width: 7px;
+        }
+      }
     }
     &.active {
       background-color: rgba(255, 255, 255, 0.6);
       .flag {
-        width: 0;
+        width: 7px;
         background-color: #0078D4;
         animation: grow linear 0.2s forwards;
         animation-delay: 0.4s;
         @keyframes grow {
           from {
-            width: 0;
+            width: 7px;
           }
           to {
             width: 16px;
