@@ -1,6 +1,6 @@
 <template>
   <drag-app :icon="icon" icon-wdith="50" icon-height="50" name="Microsoft Edge" title="浏览 Web" @dblclick.stop="handleOpen"></drag-app>
-  <drag-window v-if="app.edge.visible" :is-mini="app.edge.mini" ref="dragWin" handle-class="edge-app__header" @full="onFullChange">
+  <drag-window v-if="app.edge.visible" :is-mini="app.edge.mini" ref="dragWin" handle-class="edge-app__header" @full="onFullChange" @end="onEnd" @resizing="onResize">
     <div class="edge-app rounded-[10px] overflow-hidden">
       <div class="edge-app__header flex items-center justify-between">
         <div class="left-tags pl-2 pt-2 h-full flex">
@@ -47,8 +47,9 @@
           <el-icon size="12"><MoreFilled /></el-icon>
         </div>
       </div>
-      <div class="edge-app__content w-full">
+      <div class="edge-app__content">
         <iframe ref="iframe" class="iframe w-full h-full" :src="state.url" @load="onWebLoad" />
+        <div v-if="state.resizing" class="absolute h-full w-full top-0 left-0" />
       </div>
     </div>
   </drag-window>
@@ -72,6 +73,7 @@ const homeUrl = 'https://cn.bing.com/'
 const state = reactive({
   isFull: false,
   loading: true,
+  resizing: false,
   url: homeUrl
 })
 
@@ -112,6 +114,14 @@ const handleSearch = () => {
 
 const onWebLoad = () => {
   state.loading = !Boolean(state.url)
+}
+
+const onResize = () => {
+  state.resizing = true
+}
+
+const onEnd = () => {
+  state.resizing = false
 }
 
 const handleRefresh = async () => {
@@ -181,6 +191,7 @@ const handleClose = () => {
   }
   &__content {
     height: calc(100% - 81px);
+    position: relative;
     .iframe {
       background-color: white;
     }

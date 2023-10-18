@@ -1,6 +1,9 @@
 <template>
   <div class="drag-window overflow-hidden absolute" :class="{ 'is-full': state.isFull, 'transition-none': state.disabledTransition, 'is-mini': props.isMini }" :style="style" @mousedown.stop="onmousedown" @contextmenu.prevent.stop>
     <div class="drag-window__top" @mousedown.stop="onResizeMousedown($event, 't')" />
+    <div class="drag-window__bottom" @mousedown.stop="onResizeMousedown($event, 'b')" />
+    <div class="drag-window__left" @mousedown.stop="onResizeMousedown($event, 'l')" />
+    <div class="drag-window__right" @mousedown.stop="onResizeMousedown($event, 'r')" />
     <div ref="$content" class="w-full h-full" :style="boxStyle">
       <slot />
     </div>
@@ -24,6 +27,7 @@ const props = defineProps({
 
 const box = reactive({
   downHeight: 0,
+  downWidth: 0,
   width: 1280,
   height: 720,
   downX: 0,
@@ -33,7 +37,7 @@ const moveType = ref('')
 const width = ref(null)
 const height = ref(null)
 const $content = ref(null)
-const $emit = defineEmits(['full'])
+const $emit = defineEmits(['full', 'resizing', 'end'])
 
 const topResizer = (e) => {
   const { y } = e
@@ -42,21 +46,53 @@ const topResizer = (e) => {
   state.top = moveY + box.downY
 }
 
+const bottomResizer = (e) => {
+  const { y } = e
+  const moveY = y - box.downY
+  box.height = moveY + box.downHeight
+}
+
+const leftResizer = (e) => {
+  const { x } = e
+  const moveX = box.downX - x
+  box.width = box.downWidth - (x - box.downX)
+  state.left = box.downX - moveX
+}
+
+const rightResizer = (e) => {
+  const { x } = e
+  box.width = box.downWidth + (x - box.downX)
+}
+
 const onResizeMousemove = (e) => {
   if (moveType.value === 't') {
     topResizer(e)
+  } else if (moveType.value === 'b') {
+    bottomResizer(e)
+  } else if (moveType.value === 'l') {
+    leftResizer(e)
+  } else if (moveType.value === 'r') {
+    rightResizer(e)
   }
+  resizing()
+}
+
+const resizing = () => {
+  $emit('resizing')
 }
 
 const onResizeMouseup = () => {
+  $emit('end')
   off(document, 'mousemove', onResizeMousemove)
   off(document, 'mouseup', onResizeMouseup)
 }
 
 const onResizeMousedown = (e, type) => {
-  const { clientY } = e
+  const { y, x } = e
   moveType.value = type
-  box.downY = clientY
+  box.downY = y
+  box.downX = x
+  box.downWidth = box.width
   box.downHeight = box.height
   on(document, 'mousemove', onResizeMousemove)
   on(document, 'mouseup', onResizeMouseup)
@@ -159,6 +195,30 @@ defineExpose({
     left: 0;
     height: 2px;
     cursor: ns-resize;
+  }
+  &__bottom {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    cursor: ns-resize;
+  }
+  &__left {
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: ew-resize;
+  }
+  &__right{
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: ew-resize;
   }
 }
 </style>
