@@ -1,13 +1,14 @@
 <template>
   <div class="task-list flex items-center">
     <div v-for="item in app.taskList" :key="item.id" class="item rounded flex items-center justify-center ml-2 relative" :class="{ 'active': app.currentTask.id === item.id }" @click.stop="handleToggleTask(item)">
-      <img class="w-[25px] h-[25px] icon" :src="item.icon" alt="" />
+      <img class="w-[25px] h-[25px] icon" :src="getIcon(item.id)" alt="" />
       <div class="flag" :class="{ 'animate-end': item.isReady }" @animationend="onFlagEnd(item)" />
     </div>
   </div>
 </template>
 
 <script setup>
+import edgeIcon from '@/assets/images/app/edge.png'
 import { useAppStore } from '@/store'
 
 const app = useAppStore()
@@ -15,6 +16,12 @@ const app = useAppStore()
 const handleToggleTask = (item) => {
   app.currentTask.id === item.id ? app.focusTask(false) : app.focusTask(item.id)
   app.toggleMini(item.id)
+}
+
+const getIcon = (id) => {
+  return {
+    edge: edgeIcon
+  }[id]
 }
 
 const onFlagEnd = (item) => {

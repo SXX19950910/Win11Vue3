@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { sleep } from '@/utils'
-import edgeImg from '@/assets/images/app/edge.png'
+// import edgeImg from '@/assets/images/app/edge.png'
 
 export const useAppStore = defineStore('app', {
     state() {
@@ -8,7 +8,7 @@ export const useAppStore = defineStore('app', {
             edge: {
                 visible: false,
                 mini: false,
-                icon: edgeImg
+                icon: ''
             },
             currentTask: {
                 id: ''
